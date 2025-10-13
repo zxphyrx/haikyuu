@@ -11,7 +11,7 @@ distance = -1078.0
 size = Vector2(1919.5, 53)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w4l72"]
-size = Vector2(9.25, 329.75)
+size = Vector2(3, 329.75)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_e4eut")
@@ -34,13 +34,8 @@ collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
-position = Vector2(960, 862)
+position = Vector2(960.5, 862)
 shape = SubResource("RectangleShape2D_w4l72")
-
-[node name="Ball" parent="." instance=ExtResource("1_85q8w")]
-position = Vector2(871, 339)
-collision_layer = 1
-collision_mask = 4
 
 [node name="Players" type="Node2D" parent="."]
 
@@ -51,3 +46,8 @@ position = Vector2(211, 888)
 position = Vector2(818, 891)
 
 [node name="Enemies" type="Node2D" parent="."]
+
+[node name="Ball" parent="." instance=ExtResource("1_85q8w")]
+position = Vector2(227, 107)
+collision_layer = 1
+collision_mask = 4

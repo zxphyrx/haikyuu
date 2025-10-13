@@ -6,3 +6,7 @@ func hit(impulse, position):
 func set_ball():
 	linear_velocity = Vector2.ZERO
 	apply_central_impulse(Vector2(0, -300))
+
+func receive(impulse):
+	linear_velocity = Vector2.ZERO
+	apply_central_impulse(impulse)

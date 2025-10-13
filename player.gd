@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
-const JUMP_VELOCITY = -800.0
+const JUMP_VELOCITY = -700.0
 const SPEED = 500.0
 
 var collision := false
+var active := false
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
