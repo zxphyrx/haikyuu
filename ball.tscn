@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq2cjpws0suqd"]
+
+[ext_resource type="Texture2D" uid="uid://bx300mm3eeg58" path="res://assets/volleyball.png" id="1_j7mmv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_k0u1i"]
+friction = 0.5
+bounce = 0.9
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_64ybt"]
+radius = 48.6621
+
+[node name="RigidBody2D" type="RigidBody2D"]
+collision_layer = 2
+mass = 0.26
+physics_material_override = SubResource("PhysicsMaterial_k0u1i")
+can_sleep = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_64ybt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("1_j7mmv")
