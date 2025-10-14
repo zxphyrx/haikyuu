@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
+@onready var arrow: Sprite2D = $Arrow
+
 const JUMP_VELOCITY = -700.0
 const SPEED = 500.0
 
 var collision := false
-var active := false
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -22,6 +23,12 @@ func move(direction):
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+func show_arrow():
+	arrow.show()
+	
+func hide_arrow():
+	arrow.hide()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Ball":

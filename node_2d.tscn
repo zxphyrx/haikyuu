@@ -40,7 +40,7 @@ shape = SubResource("RectangleShape2D_w4l72")
 [node name="Players" type="Node2D" parent="."]
 
 [node name="PlayerHitter" parent="Players" instance=ExtResource("2_4dk6c")]
-position = Vector2(211, 888)
+position = Vector2(-3, 870)
 
 [node name="PlayerSetter" parent="Players" instance=ExtResource("2_4dk6c")]
 position = Vector2(818, 891)
