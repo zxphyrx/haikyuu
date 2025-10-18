@@ -3,7 +3,6 @@ extends CharacterBody2D
 @onready var arrow: Sprite2D = $Arrow
 
 const JUMP_VELOCITY = -800.0
-const SPEED = 600.0
 
 var collisions := {
 	"hit": false,
@@ -20,13 +19,13 @@ func _physics_process(delta: float) -> void:
 func jump():
 	velocity.y = JUMP_VELOCITY
 	
-func move(direction):
+func move(direction, speed):
 	if not is_on_floor():
 		return
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
 
 func show_arrow():
 	arrow.show()

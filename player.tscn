@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dy84wtfa25y2y"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_xpino"]
+[ext_resource type="Texture2D" uid="uid://dvx8n6h4pc2oq" path="res://assets/arrow.png" id="2_2xonb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5g3d"]
+size = Vector2(144, 273)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y3ucy"]
+size = Vector2(142, 106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjyh5"]
+size = Vector2(144, 137)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3bosf"]
+size = Vector2(144, 135)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 12
+script = ExtResource("1_xpino")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-5.96046e-08, 0)
+scale = Vector2(7.2, 7.2)
+polygon = PackedVector2Array(-10, -19, -10, 0, -10, 19, 10, 19, 10, -19)
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_e5g3d")
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(0, -84)
+shape = SubResource("RectangleShape2D_y3ucy")
+
+[node name="SetArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SetArea"]
+position = Vector2(0, -68.5)
+shape = SubResource("RectangleShape2D_wjyh5")
+
+[node name="ReceiveArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ReceiveArea"]
+position = Vector2(0, 67.5)
+shape = SubResource("RectangleShape2D_3bosf")
+
+[node name="Arrow" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(0, -183)
+scale = Vector2(3, 3)
+texture = ExtResource("2_2xonb")
+
+[connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]
+[connection signal="body_exited" from="HitArea" to="." method="_on_hit_area_body_exited"]
+[connection signal="body_entered" from="SetArea" to="." method="_on_set_area_body_entered"]
+[connection signal="body_exited" from="SetArea" to="." method="_on_set_area_body_exited"]
+[connection signal="body_entered" from="ReceiveArea" to="." method="_on_receive_area_body_entered"]
+[connection signal="body_exited" from="ReceiveArea" to="." method="_on_receive_area_body_exited"]

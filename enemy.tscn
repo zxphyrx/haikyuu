@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqjae45lssqaj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xx00h"]
+size = Vector2(144, 273)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ey3yl"]
+size = Vector2(142, 106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1rg6i"]
+size = Vector2(144, 137)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7dwm"]
+size = Vector2(144, 135)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_mask = 9
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-5.96046e-08, 0)
+scale = Vector2(7.2, 7.2)
+polygon = PackedVector2Array(-10, -19, -10, 0, -10, 19, 10, 19, 10, -19)
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_xx00h")
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(0, -84)
+shape = SubResource("RectangleShape2D_ey3yl")
+
+[node name="SetArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SetArea"]
+position = Vector2(0, -68.5)
+shape = SubResource("RectangleShape2D_1rg6i")
+
+[node name="ReceiveArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ReceiveArea"]
+position = Vector2(0, 67.5)
+shape = SubResource("RectangleShape2D_y7dwm")

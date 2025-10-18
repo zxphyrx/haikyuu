@@ -1,7 +1,7 @@
 extends RigidBody2D
 
-func hit(impulse, position):
-	apply_impulse(impulse, position)
+func hit(impulse):
+	apply_impulse(impulse)
 
 func set_ball(impulse):
 	linear_velocity = Vector2.ZERO

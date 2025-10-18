@@ -1,14 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://cns5ntpy7nf1b"]
+[gd_scene load_steps=10 format=3 uid="uid://cns5ntpy7nf1b"]
 
 [ext_resource type="PackedScene" uid="uid://cq2cjpws0suqd" path="res://ball.tscn" id="1_85q8w"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_e4eut"]
-[ext_resource type="PackedScene" uid="uid://dy84wtfa25y2y" path="res://character_body_2d.tscn" id="2_4dk6c"]
+[ext_resource type="PackedScene" uid="uid://dy84wtfa25y2y" path="res://player.tscn" id="2_4dk6c"]
+[ext_resource type="PackedScene" uid="uid://cqjae45lssqaj" path="res://enemy.tscn" id="3_ho8m7"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3rdx4"]
-distance = -1.0
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rsk3u"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7tqd0"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gxqmu"]
+size = Vector2(3.5, 1023)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1o6lr"]
-size = Vector2(1919.5, 53)
+size = Vector2(1920, 53)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w4l72"]
 size = Vector2(3, 329.75)
@@ -16,18 +23,37 @@ size = Vector2(3, 329.75)
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_e4eut")
 
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="Walls" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
-rotation = 1.56482
-shape = SubResource("WorldBoundaryShape2D_3rdx4")
+[node name="Wall" type="StaticBody2D" parent="Walls"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall"]
+shape = SubResource("WorldBoundaryShape2D_rsk3u")
+
+[node name="Wall2" type="StaticBody2D" parent="Walls"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2"]
+position = Vector2(1920, 0)
+shape = SubResource("WorldBoundaryShape2D_7tqd0")
+
+[node name="Wall3" type="StaticBody2D" parent="Walls"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3"]
+position = Vector2(960.25, 515.5)
+shape = SubResource("RectangleShape2D_gxqmu")
 
 [node name="Floor" type="StaticBody2D" parent="."]
 collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(960.25, 1053)
+position = Vector2(960, 1053)
 shape = SubResource("RectangleShape2D_1o6lr")
 
 [node name="Net" type="StaticBody2D" parent="."]
@@ -35,18 +61,24 @@ collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
-position = Vector2(960.5, 862)
+position = Vector2(960, 862)
 shape = SubResource("RectangleShape2D_w4l72")
 
 [node name="Players" type="Node2D" parent="."]
 
 [node name="PlayerHitter" parent="Players" instance=ExtResource("2_4dk6c")]
-position = Vector2(168, 883)
+position = Vector2(260, 883)
 
 [node name="PlayerSetter" parent="Players" instance=ExtResource("2_4dk6c")]
-position = Vector2(780, 847)
+position = Vector2(861, 887)
 
 [node name="Enemies" type="Node2D" parent="."]
+
+[node name="EnemyHitter" parent="Enemies" instance=ExtResource("3_ho8m7")]
+position = Vector2(1660, 885)
+
+[node name="EnemySetter" parent="Enemies" instance=ExtResource("3_ho8m7")]
+position = Vector2(1059, 885)
 
 [node name="Ball" parent="." instance=ExtResource("1_85q8w")]
 position = Vector2(227, 107)
