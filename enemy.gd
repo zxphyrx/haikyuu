@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-@onready var arrow: Sprite2D = $Arrow
-
 @export var jump_height: float
 @export var speed: float
 @export var hit_time: float
@@ -11,7 +9,6 @@ var collisions := {
 	"set": false,
 	"receive": false
 }
-var active = false
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():

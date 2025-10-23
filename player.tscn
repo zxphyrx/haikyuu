@@ -7,10 +7,10 @@
 size = Vector2(144, 273)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3ucy"]
-size = Vector2(142, 106)
+size = Vector2(142, 52)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wjyh5"]
-size = Vector2(144, 137)
+size = Vector2(144, 93)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3bosf"]
 size = Vector2(144, 135)
@@ -32,13 +32,13 @@ shape = SubResource("RectangleShape2D_e5g3d")
 [node name="HitArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
-position = Vector2(0, -84)
+position = Vector2(0, -111)
 shape = SubResource("RectangleShape2D_y3ucy")
 
 [node name="SetArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SetArea"]
-position = Vector2(0, -68.5)
+position = Vector2(0, -90.5)
 shape = SubResource("RectangleShape2D_wjyh5")
 
 [node name="ReceiveArea" type="Area2D" parent="."]

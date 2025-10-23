@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cns5ntpy7nf1b"]
+[gd_scene load_steps=11 format=3 uid="uid://cns5ntpy7nf1b"]
 
 [ext_resource type="PackedScene" uid="uid://cq2cjpws0suqd" path="res://ball.tscn" id="1_85q8w"]
-[ext_resource type="Script" path="res://game_manager.gd" id="1_e4eut"]
+[ext_resource type="Script" uid="uid://b8rnv0ljgu0dy" path="res://game_manager.gd" id="1_e4eut"]
 [ext_resource type="PackedScene" uid="uid://dy84wtfa25y2y" path="res://player.tscn" id="2_4dk6c"]
 [ext_resource type="PackedScene" uid="uid://cqjae45lssqaj" path="res://enemy.tscn" id="3_ho8m7"]
 
@@ -19,6 +19,9 @@ size = Vector2(1920, 53)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w4l72"]
 size = Vector2(3, 329.75)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0hol4"]
+font_size = 64
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_e4eut")
@@ -57,20 +60,32 @@ position = Vector2(960, 1053)
 shape = SubResource("RectangleShape2D_1o6lr")
 
 [node name="Net" type="StaticBody2D" parent="."]
+position = Vector2(960, 862)
 collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
-position = Vector2(960, 862)
 shape = SubResource("RectangleShape2D_w4l72")
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="PlayerHitter" parent="Players" instance=ExtResource("2_4dk6c")]
+[node name="PlayerLibero" parent="Players" instance=ExtResource("2_4dk6c")]
 position = Vector2(260, 883)
+jump_height = -400
+speed = 600
+hit_time = 1.5
 
 [node name="PlayerSetter" parent="Players" instance=ExtResource("2_4dk6c")]
 position = Vector2(861, 887)
+jump_height = -650
+speed = 500
+hit_time = 1.0
+
+[node name="PlayerHitter" parent="Players" instance=ExtResource("2_4dk6c")]
+position = Vector2(861, 887)
+jump_height = -800
+speed = 400
+hit_time = 0.5
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -82,5 +97,12 @@ position = Vector2(1059, 885)
 
 [node name="Ball" parent="." instance=ExtResource("1_85q8w")]
 position = Vector2(227, 107)
-collision_layer = 1
-collision_mask = 4
+
+[node name="Score" type="Label" parent="."]
+offset_left = 940.0
+offset_top = 6.0
+offset_right = 980.0
+offset_bottom = 29.0
+text = "0-0"
+label_settings = SubResource("LabelSettings_0hol4")
+horizontal_alignment = 1

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cq2cjpws0suqd"]
 
-[ext_resource type="Script" path="res://ball.gd" id="1_6oryp"]
+[ext_resource type="Script" uid="uid://c235bvmfgr71x" path="res://ball.gd" id="1_6oryp"]
 [ext_resource type="Texture2D" uid="uid://bx300mm3eeg58" path="res://assets/volleyball.png" id="1_j7mmv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_k0u1i"]
@@ -11,7 +11,7 @@ bounce = 0.9
 radius = 48.6621
 
 [node name="RigidBody2D" type="RigidBody2D"]
-collision_layer = 2
+collision_mask = 4
 mass = 0.26
 physics_material_override = SubResource("PhysicsMaterial_k0u1i")
 can_sleep = false
@@ -24,3 +24,7 @@ shape = SubResource("CircleShape2D_64ybt")
 texture_filter = 1
 scale = Vector2(3, 3)
 texture = ExtResource("1_j7mmv")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 49)
+collision_mask = 4
