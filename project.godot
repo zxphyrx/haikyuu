@@ -66,8 +66,13 @@ set={
 
 2d_physics/layer_1="ball"
 2d_physics/layer_2="player"
-2d_physics/layer_3="floor"
-2d_physics/layer_4="walls"
+2d_physics/layer_3="enemy"
+2d_physics/layer_4="floor"
+2d_physics/layer_5="walls"
+
+[physics]
+
+2d/run_on_separate_thread=true
 
 [rendering]
 

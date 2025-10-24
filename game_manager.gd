@@ -21,46 +21,77 @@ var points = {
 	"enemy": 0
 }
 
-func get_closest(character, direction):
-	var possible_characters = []
+func get_closest(character, direction, possible_characters):
+	var final_character: CharacterBody2D
 	
-	for key in characters.keys():
-		var possible_character = characters[key]
+	for key in possible_characters.keys():
+		var possible_character = possible_characters[key]
 		var distance = character.position.x - possible_character.position.x
 		
 		if possible_character == character:
 			pass
 		
 		if (distance < 0) == (direction > 0):
-			possible_characters.append(possible_character)
+			if not final_character:
+				final_character = possible_character
+			elif (abs(character.position.x - possible_character.position.x) < abs(character.position.x - final_character.position.x)):
+				final_character = possible_character
+			elif (abs(character.position.x - possible_character.position.x) == abs(character.position.x - final_character.position.x)):
+				if possible_character.z_index > final_character.z_index:
+					final_character = possible_character
+				
+	return final_character
+
+func get_farthest(character, direction, possible_characters):
+	var final_character: CharacterBody2D
+	
+	for key in possible_characters.keys():
+		var possible_character = possible_characters[key]
+		var distance = character.position.x - possible_character.position.x
 		
-	return possible_characters
+		if possible_character == character:
+			pass
+		
+		if (distance < 0) == (direction > 0):
+			if not final_character:
+				final_character = possible_character
+			elif (abs(character.position.x - possible_character.position.x) > abs(character.position.x - final_character.position.x)):
+				final_character = possible_character
+			elif (abs(character.position.x - possible_character.position.x) == abs(character.position.x - final_character.position.x)):
+				if possible_character.z_index > final_character.z_index:
+					final_character = possible_character
+				
+	return final_character
 
 func switch_player(direction):
-	var possible_players = get_closest(current_player, direction)
-	var new_player: CharacterBody2D
+	var target_player = get_closest(current_player, direction, players)
 	
-	for player in possible_players:
-		if player not in player_touches:
-			new_player = player
-			break
-	
-	if new_player == current_player or new_player.name.begins_with("Enemy"):
+	if !target_player:
+		return
+	if target_player.name.begins_with("Enemy"):
 		return
 		
-	print(current_player)
+	print(target_player)
+		
 	current_player.move(0)
 	current_player.active = false
 	
-	current_player = new_player
+	current_player = target_player
 	
 	current_player.active = true
 
 func touch():
-	if current_player.name.begins_with("Enemy"):
-		enemy_touches.append(current_enemy)
+	var touches := []
+	if current_character.name.begins_with("Enemy"):
+		touches = enemy_touches
 	else:
-		player_touches.append(current_player)
+		touches = player_touches
+	
+	if current_character in touches:
+		return false
+	else:
+		touches.append(current_character)
+		return true
 
 func arc(direction, time, lift := 1.0):
 	var velocity_x = direction.x / time
@@ -85,55 +116,48 @@ func handle_player():
 	if Input.is_action_just_pressed("ui_accept") and current_player.is_on_floor():
 		current_player.jump()
 		
-	if Input.is_action_just_pressed("hit") and !current_player.is_on_floor() and current_character.collisions["hit"] == true:
-		var target: CharacterBody2D
-		var tilt := Input.get_axis("left", "right")
+	if Input.is_action_just_pressed("hit") and !current_player.is_on_floor() and current_player.collisions["hit"] == true:
+		var touch_result = touch()
 		
-		target = enemies["enemy_hitter"]
-		
-		var direction = (target.get_node("SetArea").global_position - ball.position)
-		var time = current_character.hit_time
-		
-		ball.hit(arc(direction, time))
-		touch()
-		switch_player(1)
+		if touch_result:
+			var target: CharacterBody2D
+			var tilt := Input.get_axis("left", "right")
+			
+			if tilt == 1:
+				target = get_closest(current_player, 1, enemies)
+			else:
+				target = get_farthest(current_player, 1, enemies)
+			
+			var direction = (target.get_node("SetArea").global_position - ball.position)
+			var time = current_character.hit_time
+			
+			ball.hit(arc(direction, time))
+			switch_player(1)
 	
-	if Input.is_action_just_pressed("receive") and current_character.is_on_floor() and current_character.collisions["receive"] == true:
-		var target: CharacterBody2D
-		var tilt := Input.get_axis("left", "right")
+	if Input.is_action_just_pressed("receive") and current_player.is_on_floor() and current_player.collisions["receive"] == true:
+		var touch_result = touch()
 		
-		if tilt == 0:
-			tilt = 1
-		
-		target = get_closest(current_player, tilt)[0]
-		
-		var direction = (target.get_node("SetArea").global_position - ball.position)
-		var time = 2.5
-		ball.receive(arc(direction, time, 1.2))
-		touch()
-		switch_player(tilt)
-		
-	if Input.is_action_just_pressed("set") and current_character.collisions["set"] == true:
-		var direction = (players["hitter"].position - ball.position).normalized()
-		var forward_force = direction
-		var tilt := Input.get_axis("left", "right")
-		
-		if tilt == 0:
-			forward_force = direction * 0
-		elif tilt == -1:
-			forward_force = direction * 150
-		elif tilt == 1:
-			forward_force = direction * -150
-		
-		var upward_force = Vector2(0, -250)
-		var impulse = forward_force + upward_force
-		ball.set_ball(impulse)
-		touch()
-		switch_player(1)
-		
+		if touch_result:
+			var target: CharacterBody2D
+			var tilt := Input.get_axis("left", "right")
+			
+			if tilt == 0:
+				tilt = 1
+			
+			target = get_closest(current_player, tilt, players)
+			
+			if !target:
+				print(target)
+				target = get_closest(current_player, tilt, enemies)
+			
+			var direction = (target.get_node("SetArea").global_position - ball.position)
+			
+			ball.receive(arc(direction, 2.5, 1.2))
+			switch_player(1)
+	
 	var direction := Input.get_axis("left", "right")
 	
-	current_character.move(direction)
+	current_player.move(direction)
 
 func handle_ball():
 	if ball.on_floor == true and not rally_finished:
@@ -157,22 +181,33 @@ func _ready() -> void:
 		"hitter": $Players/PlayerHitter
 	}
 	enemies = {
-		"enemy_hitter": $Enemies/EnemyHitter,
-		"enemy_setter": $Enemies/EnemySetter
+		"enemy_libero": $Enemies/EnemyLibero,
+		"enemy_setter": $Enemies/EnemySetter,
+		"enemy_hitter": $Enemies/EnemyHitter
 	}
 	current_player = players["libero"]
 	current_player.active = true
+	current_enemy = enemies["enemy_libero"]
 	current_character = current_player
+	
 	characters = players.duplicate()
 	characters.merge(enemies)
 	update_score()
 	
 func _physics_process(delta: float) -> void:
-	if ball.position.x < net.position.x:
+	if ball.position.x < net.position.x and side != "left":
 		side = "left"
-		current_character = current_player
-	else:
+		player_touches = []
+		enemy_touches = []
+	elif ball.position.x > net.position.x and side != "right":
 		side = "right"
+		player_touches = []
+		enemy_touches = []
+		
+	if side == "left":
+		current_character = current_player
+	elif side == "right":
 		current_character = current_enemy
+		
 	handle_player()
 	handle_ball()

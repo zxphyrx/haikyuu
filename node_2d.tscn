@@ -29,31 +29,31 @@ script = ExtResource("1_e4eut")
 [node name="Walls" type="Node2D" parent="."]
 
 [node name="Wall" type="StaticBody2D" parent="Walls"]
-collision_layer = 8
-collision_mask = 2
+collision_layer = 16
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall"]
 shape = SubResource("WorldBoundaryShape2D_rsk3u")
 
 [node name="Wall2" type="StaticBody2D" parent="Walls"]
-collision_layer = 8
-collision_mask = 2
+collision_layer = 16
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2"]
 position = Vector2(1920, 0)
 shape = SubResource("WorldBoundaryShape2D_7tqd0")
 
 [node name="Wall3" type="StaticBody2D" parent="Walls"]
-collision_layer = 8
-collision_mask = 2
+collision_layer = 16
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3"]
 position = Vector2(960.25, 515.5)
 shape = SubResource("RectangleShape2D_gxqmu")
 
 [node name="Floor" type="StaticBody2D" parent="."]
-collision_layer = 4
-collision_mask = 3
+collision_layer = 8
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2(960, 1053)
@@ -61,8 +61,8 @@ shape = SubResource("RectangleShape2D_1o6lr")
 
 [node name="Net" type="StaticBody2D" parent="."]
 position = Vector2(960, 862)
-collision_layer = 4
-collision_mask = 3
+collision_layer = 8
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
 shape = SubResource("RectangleShape2D_w4l72")
@@ -75,25 +75,29 @@ jump_height = -400
 speed = 600
 hit_time = 1.5
 
-[node name="PlayerSetter" parent="Players" instance=ExtResource("2_4dk6c")]
-position = Vector2(861, 887)
-jump_height = -650
-speed = 500
-hit_time = 1.0
-
 [node name="PlayerHitter" parent="Players" instance=ExtResource("2_4dk6c")]
-position = Vector2(861, 887)
+z_index = 1
+position = Vector2(856, 887)
 jump_height = -800
 speed = 400
 hit_time = 0.5
 
+[node name="PlayerSetter" parent="Players" instance=ExtResource("2_4dk6c")]
+z_index = 2
+position = Vector2(856, 885)
+jump_height = -650
+speed = 500
+hit_time = 1.0
+
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="EnemyHitter" parent="Enemies" instance=ExtResource("3_ho8m7")]
-position = Vector2(1660, 885)
+[node name="EnemyLibero" parent="Enemies" instance=ExtResource("3_ho8m7")]
 
 [node name="EnemySetter" parent="Enemies" instance=ExtResource("3_ho8m7")]
 position = Vector2(1059, 885)
+
+[node name="EnemyHitter" parent="Enemies" instance=ExtResource("3_ho8m7")]
+position = Vector2(1660, 885)
 
 [node name="Ball" parent="." instance=ExtResource("1_85q8w")]
 position = Vector2(227, 107)
